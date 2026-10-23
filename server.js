@@ -198,7 +198,7 @@ function breakDownTask(title) {
 // Request handler
 const server = http.createServer(async (req, res) => {
   const startTime = Date.now();
-  const parsedUrl = url.parse(req.url, true);
+  const parsedUrl = new URL(req.url, `http://${req.headers.host || "localhost"}`);
   const pathname = parsedUrl.pathname;
 
   // CORS Headers for flexible dev environments
