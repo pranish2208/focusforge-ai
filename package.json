@@ -1,0 +1,22 @@
+{
+  "name": "focusforge-ai",
+  "version": "1.0.0",
+  "description": "Plan · Prioritize · Progress — Modern productivity dashboard and focus timer",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "productivity",
+    "dashboard",
+    "focus-timer",
+    "ai",
+    "tasks"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

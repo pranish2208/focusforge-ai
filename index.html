@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f7fb">
+  <title>FocusForge AI — Plan. Prioritize. Progress.</title>
+  <meta name="description" content="A clean productivity workspace to organize tasks, prioritize your day, and track progress.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" aria-label="FocusForge AI home">
+        <span class="brand-mark"><span></span><span></span><span></span><span></span></span>
+        <span><strong>FocusForge <em>AI</em></strong><small>Plan · Prioritize · Progress</small></span>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <button class="nav-item active" data-view="dashboard"><span class="nav-icon">⌂</span> Dashboard</button>
+        <button class="nav-item" data-view="tasks"><span class="nav-icon">☷</span> My Tasks <span class="nav-count" id="navTaskCount">0</span></button>
+        <button class="nav-item" data-view="today"><span class="nav-icon">◷</span> Today</button>
+        <button class="nav-item" data-view="calendar"><span class="nav-icon">▦</span> Calendar</button>
+        <button class="nav-item" data-view="analytics"><span class="nav-icon">▥</span> Analytics</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="ai-card">
+          <div class="ai-card-icon">✦</div>
+          <strong>Focus mode</strong>
+          <p>Small steps make meaningful progress.</p>
+          <button id="focusModeBtn" class="light-button">Start a focus session <span>→</span></button>
+        </div>
+        <div class="profile">
+          <div class="avatar">F</div>
+          <div><strong>My Workspace</strong><small>Personal planner</small></div>
+          <button class="icon-button" id="exportBtn" title="Export tasks" aria-label="Export tasks">⇩</button>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="icon-button mobile-menu" id="menuBtn" aria-label="Open navigation">☰</button>
+        <div class="breadcrumb">Workspace <span>/</span> <strong id="breadcrumbView">Dashboard</strong></div>
+        <div class="top-actions">
+          <label class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Search tasks..." aria-label="Search tasks"><kbd>⌘ K</kbd></label>
+          <button class="icon-button theme-toggle" id="themeToggleBtn" title="Toggle Light/Dark Theme" aria-label="Toggle theme">☾</button>
+          <button class="icon-button notification" title="Notifications" aria-label="Notifications">♧<i></i></button>
+          <div class="avatar avatar-small">F</div>
+        </div>
+      </header>
+
+      <section class="content">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow" id="dateEyebrow">YOUR PRODUCTIVITY SPACE</p>
+            <h1 id="pageTitle">Good morning! <span class="wave">✦</span></h1>
+            <p class="subtitle" id="pageSubtitle">Make space for the work that matters.</p>
+          </div>
+          <button class="primary-button" id="addTaskBtn"><span>＋</span> Add task</button>
+        </div>
+
+        <div class="stats-grid" id="statsGrid">
+          <article class="stat-card stat-blue"><div class="stat-icon">☷</div><div><span>Total tasks</span><strong id="totalStat">0</strong><small>In your workspace</small></div></article>
+          <article class="stat-card stat-green"><div class="stat-icon">✓</div><div><span>Completed</span><strong id="completedStat">0</strong><small id="completedSub">Keep it up</small></div></article>
+          <article class="stat-card stat-amber"><div class="stat-icon">◷</div><div><span>In progress</span><strong id="progressStat">0</strong><small>Ready for your focus</small></div></article>
+          <article class="stat-card stat-pink"><div class="stat-icon">▦</div><div><span>Due today</span><strong id="dueStat">0</strong><small>Stay ahead of deadlines</small></div></article>
+        </div>
+
+        <div class="dashboard-grid" id="dashboardLayout">
+          <section class="panel plan-panel">
+            <div class="panel-header">
+              <div><h2 id="listHeading">Today's plan</h2><p class="panel-description">A clear path, one task at a time.</p></div>
+              <button class="text-button" id="viewAllBtn">View all <span>↗</span></button>
+            </div>
+            <div class="task-toolbar">
+              <div class="filter-pills" id="filterPills">
+                <button class="pill active" data-filter="all">All</button>
+                <button class="pill" data-filter="high">High priority</button>
+                <button class="pill" data-filter="active">In progress</button>
+                <button class="pill" data-filter="completed">Completed</button>
+              </div>
+            </div>
+            <div id="taskList" class="task-list"></div>
+            <div class="empty-state" id="emptyState" hidden>
+              <div class="empty-illustration">✦</div><h3>Your next win starts here</h3><p>Add a task to turn your plans into progress.</p>
+              <button class="primary-button" id="emptyAddBtn">＋ Create your first task</button>
+            </div>
+            <div class="panel-footer"><span id="taskFooterText">Your task list</span><button class="text-button" id="clearCompletedBtn">Clear completed</button></div>
+          </section>
+
+          <div class="right-column">
+            <section class="panel suggestions-panel">
+              <div class="panel-header"><div class="title-with-icon"><span class="sparkle">✦</span><div><h2>Focus suggestions</h2><p class="panel-description">Simple nudges for your next step.</p></div></div><span class="live-dot" title="Live sync"></span></div>
+              <div id="suggestionsList" class="suggestions-list"></div>
+              <p class="disclaimer">Powered by FocusForge intelligence engine · Real-time local & API sync enabled.</p>
+            </section>
+            <section class="panel progress-panel">
+              <div class="panel-header"><div><h2>Productivity progress</h2><p class="panel-description">Your completed tasks</p></div><span class="progress-percent" id="progressPercent">0%</span></div>
+              <div class="progress-track"><span id="progressBar"></span></div>
+              <div class="progress-meta"><span id="progressCaption">0 of 0 completed</span><span class="progress-trend">● Updated now</span></div>
+            </section>
+            <section class="quote-card"><div class="quote-mark">“</div><p id="quoteText">You don't have to see the whole staircase. Just take the first step.</p><span>YOUR DAILY REMINDER</span></section>
+          </div>
+        </div>
+
+        <section class="panel secondary-view" id="calendarView" hidden>
+          <div class="panel-header"><div><h2>Upcoming schedule</h2><p class="panel-description">Tasks grouped by due date.</p></div><button class="text-button" id="calendarAddBtn">＋ Add task</button></div>
+          <div id="calendarList" class="calendar-list"></div>
+        </section>
+        <section class="panel secondary-view" id="analyticsView" hidden>
+          <div class="panel-header"><div><h2>Workspace analytics</h2><p class="panel-description">A snapshot of your progress.</p></div></div>
+          <div class="analytics-grid" id="analyticsGrid"></div>
+        </section>
+      </section>
+      <footer class="footer"><span>© <span id="yearNow"></span> FocusForge AI</span><span>Designed for intentional work <span class="footer-heart">✦</span></span><span class="local-storage-note">Secure local &amp; server synced workspace.</span></footer>
+    </main>
+  </div>
+
+  <dialog id="taskDialog" class="task-dialog">
+    <form id="taskForm" method="dialog">
+      <div class="dialog-heading"><div><p class="eyebrow">MAKE PROGRESS</p><h2 id="dialogTitle">Create a task</h2></div><button type="button" class="icon-button" id="closeDialogBtn" aria-label="Close dialog">×</button></div>
+      <label class="field-label" for="taskTitle">Task name <span>*</span></label>
+      <input id="taskTitle" name="title" class="form-input" maxlength="120" required placeholder="e.g. Finish project proposal">
+      <label class="field-label" for="taskNotes">Notes <small>Optional</small></label>
+      <textarea id="taskNotes" name="notes" class="form-input" rows="3" maxlength="500" placeholder="Add context or a next step..."></textarea>
+      <div class="form-row">
+        <div><label class="field-label" for="taskPriority">Priority</label><select id="taskPriority" class="form-input"><option value="high">High</option><option value="medium" selected>Medium</option><option value="low">Low</option></select></div>
+        <div><label class="field-label" for="taskDue">Due date</label><input id="taskDue" class="form-input" type="date"></div>
+      </div>
+      <div class="dialog-actions">
+        <button type="button" class="danger-button" id="deleteTaskBtn" style="display:none;">Delete task</button>
+        <button type="button" class="secondary-button" id="aiBreakdownBtn" style="display:none;">✦ AI Breakdown</button>
+        <button type="button" class="secondary-button" id="cancelDialogBtn">Cancel</button>
+        <button type="submit" class="primary-button" id="saveTaskBtn">Save task</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="breakdownDialog" class="task-dialog">
+    <div class="task-dialog-content" style="padding: 26px;">
+      <div class="dialog-heading"><div><p class="eyebrow">SMART BREAKDOWN</p><h2 id="breakdownTitle">Micro-steps</h2></div><button type="button" class="icon-button" id="closeBreakdownBtn" aria-label="Close">×</button></div>
+      <p class="panel-description" style="margin: 0 0 16px;">Actionable bite-sized steps to make starting effortless:</p>
+      <div id="breakdownStepsList" style="display:grid; gap:10px; margin-bottom: 22px;"></div>
+      <div class="dialog-actions">
+        <button type="button" class="secondary-button" id="cancelBreakdownBtn">Dismiss</button>
+        <button type="button" class="primary-button" id="addStepsAsTasksBtn">＋ Add steps as tasks</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="focusDialog" class="focus-dialog">
+    <div class="focus-modal-content"><button type="button" class="icon-button close-focus" id="closeFocusBtn" aria-label="Close focus session">×</button><div class="focus-orbit">✦</div><p class="eyebrow">FOCUS SESSION</p><h2>Make room for deep work.</h2><p>Choose one important task, silence distractions, and work in a short focused block.</p><div class="timer-display" id="timerDisplay">25:00</div><div class="timer-actions"><button class="secondary-button" id="resetTimerBtn">Reset</button><button class="primary-button" id="startTimerBtn">Start focus</button></div><small class="timer-note">This timer runs while this page remains open.</small></div>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
